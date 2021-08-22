@@ -40,7 +40,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleCadastroException(GlobalException e) {
 		List<String> erros = new ArrayList<String>();
 		erros.add(e.getMessage());
-		ErroResposta erroResposta = new ErroResposta(400, "Existem campos invalidos", LocalDateTime.now(),
+		ErroResposta erroResposta = new ErroResposta(400, "Ocorreu um error", LocalDateTime.now(),
+				erros);
+		return ResponseEntity.badRequest().body(erroResposta);
+	}
+	
+	@ExceptionHandler(LoginException.class)
+	public ResponseEntity<Object> handleLoginException(LoginException e) {
+		List<String> erros = new ArrayList<String>();
+		erros.add(e.getMessage());
+		ErroResposta erroResposta = new ErroResposta(400, "Error de login", LocalDateTime.now(),
 				erros);
 		return ResponseEntity.badRequest().body(erroResposta);
 	}

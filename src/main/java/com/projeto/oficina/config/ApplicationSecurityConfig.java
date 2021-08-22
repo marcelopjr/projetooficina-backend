@@ -21,9 +21,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-	private static final String USUARIO_POR_LOGIN = "SELECT nome_usuario, senha , ativo FROM usuarios WHERE nome_usuario=?";
+	private static final String USUARIO_POR_LOGIN = "SELECT email, senha , 'true' as enable FROM usuarios WHERE email=?";
 
-	private static final String USUARIO_AUTHORITY = "SELECT nome_usuario, tipo FROM usuarios WHERE nome_usuario = ?";
+	private static final String USUARIO_AUTHORITY = "SELECT email, tipo FROM usuarios WHERE email=?";
 
 	@Autowired
 	private DataSource dataSource;
@@ -38,6 +38,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter impl
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/**").permitAll()
+				.antMatchers(HttpMethod.POST, "/usuarios/cadastro").permitAll()
+				.antMatchers(HttpMethod.PUT, "/usuarios/ativaremail").permitAll()
+				.antMatchers(HttpMethod.POST, "/auth").permitAll()
 				.antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
 				.antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
 				.antMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")

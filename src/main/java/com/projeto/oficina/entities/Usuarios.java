@@ -31,14 +31,17 @@ public class Usuarios {
 	@Column(name = "senha")
 	private String senha;
 	
-	@Column(name = "tokenRecuperarSenha")
-	private String tokenRecuperarSenha;
+	@Column(name = "chaverecuperarsenha")
+	private String chaveRecuperarSenha;
 	
-	@Column(name = "tokenValido")
-	private boolean tokenValido;
+	@Column(name = "chaveativaremail")
+	private String chaveAtivarEmail;
 	
-	@Column(name = "emailVerificado")
-	private boolean emailVerificado;
+	@Column(name = "chaverecuperarsenhavalida")
+	private boolean chaveRecuperarSenhaValida;
+	
+	@Column(name = "emailativado")
+	private boolean emailAtivado;
 	
 	@Column(name = "tipo")
 	private String tipo;
@@ -91,30 +94,6 @@ public class Usuarios {
 		this.senha = senha;
 	}
 
-	public String getTokenRecuperarSenha() {
-		return tokenRecuperarSenha;
-	}
-
-	public void setTokenRecuperarSenha(String tokenRecuperarSenha) {
-		this.tokenRecuperarSenha = tokenRecuperarSenha;
-	}
-
-	public boolean isTokenValido() {
-		return tokenValido;
-	}
-
-	public void setTokenValido(boolean tokenValido) {
-		this.tokenValido = tokenValido;
-	}
-
-	public boolean isEmailVerificado() {
-		return emailVerificado;
-	}
-
-	public void setEmailVerificado(boolean emailVerificado) {
-		this.emailVerificado = emailVerificado;
-	}
-
 	public String getTipo() {
 		return tipo;
 	}
@@ -122,6 +101,40 @@ public class Usuarios {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+
+	public String getChaveRecuperarSenha() {
+		return chaveRecuperarSenha;
+	}
+
+	public void setChaveRecuperarSenha(String chaveRecuperarSenha) {
+		this.chaveRecuperarSenha = chaveRecuperarSenha;
+	}
+
+	public String getChaveAtivarEmail() {
+		return chaveAtivarEmail;
+	}
+
+	public void setChaveAtivarEmail(String chaveAtivarEmail) {
+		this.chaveAtivarEmail = chaveAtivarEmail;
+	}
+
+	public boolean isChaveRecuperarSenhaValida() {
+		return chaveRecuperarSenhaValida;
+	}
+
+	public void setChaveRecuperarSenhaValida(boolean chaveRecuperarSenhaValida) {
+		this.chaveRecuperarSenhaValida = chaveRecuperarSenhaValida;
+	}
+
+	public boolean isEmailAtivado() {
+		return emailAtivado;
+	}
+
+	public void setEmailAtivado(boolean emailAtivado) {
+		this.emailAtivado = emailAtivado;
+	}
+	
+	
 	
 	
 }

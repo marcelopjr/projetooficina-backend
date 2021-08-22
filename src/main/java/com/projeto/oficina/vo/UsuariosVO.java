@@ -10,6 +10,10 @@ public class UsuariosVO {
 	private String telefone;
 	
 	private String email;
+	
+	private String senha;
+	
+	private String tipo;
 
 	public String getNome() {
 		return nome;
@@ -42,5 +46,25 @@ public class UsuariosVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	
+	
+	
 	
 }
