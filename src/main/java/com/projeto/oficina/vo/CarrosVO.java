@@ -1,16 +1,21 @@
 package com.projeto.oficina.vo;
 
+import javax.validation.constraints.NotBlank;
 
 public class CarrosVO {
 	
 	private Integer id;
 
+	@NotBlank(message = "Digite o modelo do seu carro!")
 	private String modelo;
 	
+	@NotBlank(message = "Digite a marca do seu carro!")
 	private String marca;
 	
+	@NotBlank(message = "Digite a placa do seu carro!")
+	@PlacaVeiculo
 	private String placa;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -42,7 +47,5 @@ public class CarrosVO {
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
-	
-	
 
 }

@@ -5,6 +5,8 @@ import java.util.Random;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,32 +20,39 @@ import com.projeto.oficina.vo.UsuariosViewVO;
 public class UsuariosService {
 	
 	@Autowired
-	UsuariosRepository usuarioRepository;
+	UsuariosRepository usuariosRepository;
 	
 	@Autowired
 	EmailService emailService;
 	
+	public Usuarios GetUsuarioAutenticado() {
+		Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+		String login = (String) authentication.getPrincipal();
+		Usuarios usuario = usuariosRepository.findByEmail(login);
+		return usuario;
+	}
+	
 	public UsuariosViewVO findById(Integer id) {
-		return ConverteEntidadeParaView(usuarioRepository.findById(id).get());
+		return ConverteEntidadeParaView(usuariosRepository.findById(id).get());
 	}
 	
 	public Usuarios save(UsuariosVO novoUsuarioVO) throws MessagingException, GlobalException {
 		Usuarios novoUsuario = ConverteVoParaEntidade(novoUsuarioVO);
 		
 		novoUsuario.setChaveAtivarEmail(gerarChave());
-		usuarioRepository.save(novoUsuario);
+		usuariosRepository.save(novoUsuario);
 		emailService.emailCadastro(novoUsuario);
 		return novoUsuario;
 	}
 	
 	public boolean ativaremail(String chave, String email) throws GlobalException {
 		
-		Usuarios usuarios = usuarioRepository.findByEmail(email);
+		Usuarios usuarios = usuariosRepository.findByEmail(email);
 		
 		if(usuarios.getChaveAtivarEmail().equals(chave) && !usuarios.isEmailAtivado()) {
 			usuarios.setEmailAtivado(true);
 			usuarios.setChaveAtivarEmail(null);
-			usuarioRepository.save(usuarios);
+			usuariosRepository.save(usuarios);
 			return true;
 		}
 		else {

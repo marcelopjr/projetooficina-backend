@@ -9,4 +9,6 @@ import com.projeto.oficina.entities.Usuarios;
 public interface UsuariosRepository extends JpaRepository<Usuarios, Integer> {
 	
 	public Usuarios findByEmail(String email);
+	
+	public boolean existsByEmail(String email);
 }

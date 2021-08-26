@@ -37,13 +37,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter impl
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/usuarios/cadastro").permitAll()
 				.antMatchers(HttpMethod.PUT, "/usuarios/ativaremail").permitAll()
 				.antMatchers(HttpMethod.POST, "/auth").permitAll()
-				.antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
-				.antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
-				.antMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")
 				.anyRequest().authenticated()
 				.and().cors().and().csrf().disable()
 				.addFilter(jwtBasicAuthenticationFilter()).sessionManagement()

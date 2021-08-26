@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,6 +28,7 @@ public class Carros {
 	private String placa;
 	
 	@ManyToOne
+	@JoinColumn(name = "usuarioid", referencedColumnName = "id")
 	private Usuarios usuario;
 
 	public Integer getId() {

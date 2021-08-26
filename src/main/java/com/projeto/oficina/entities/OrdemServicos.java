@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,12 +25,15 @@ public class OrdemServicos {
 	private String valor;
 	
 	@ManyToOne
+	@JoinColumn(name = "usuario_id", referencedColumnName = "id")
 	private Usuarios usuario;
 	
 	@ManyToOne
+	@JoinColumn(name = "carro_id", referencedColumnName = "id")
 	private Carros carro;
 	
 	@ManyToOne
+	@JoinColumn(name = "status_atual_id", referencedColumnName = "id")
 	private Status status_atual;
 	
 	@OneToMany

@@ -1,10 +1,13 @@
 package com.projeto.oficina.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -45,6 +48,10 @@ public class Usuarios {
 	
 	@Column(name = "tipo")
 	private String tipo;
+	
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<Carros> listaCarros;
 
 	public Integer getId() {
 		return id;
@@ -133,8 +140,13 @@ public class Usuarios {
 	public void setEmailAtivado(boolean emailAtivado) {
 		this.emailAtivado = emailAtivado;
 	}
-	
-	
-	
+
+	public List<Carros> getListaCarros() {
+		return listaCarros;
+	}
+
+	public void setListaCarros(List<Carros> listaCarros) {
+		this.listaCarros = listaCarros;
+	}
 	
 }

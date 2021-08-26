@@ -22,14 +22,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.projeto.oficina.entities.Usuarios;
+import com.projeto.oficina.repositories.UsuariosRepository;
 
 public class JWTBasicAuthenticationFilter extends BasicAuthenticationFilter {
 
-//	@Autowired
-//	private UsuariosService usuariosService;
-//
-//	@Autowired
-//	private UsuariosRepository usuariosRepository;
+	@Autowired
+	private UsuariosRepository usuariosRepository;
 
 	public JWTBasicAuthenticationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
@@ -40,41 +39,49 @@ public class JWTBasicAuthenticationFilter extends BasicAuthenticationFilter {
 			throws IOException, ServletException {
 
 		String headerAuthentication = httpRequest.getHeader("Authorization");
-
+		
 		if (headerAuthentication == null) {
+			
 			chain.doFilter(httpRequest, httpResponse);
 			return;
 		}
-
+		
+		
+		
 		try {
-
+			
+			
+			
 			String[] valuesHeaderAuthentication = headerAuthentication.split(" ");
 			String jwt = valuesHeaderAuthentication[1];
+			
+			
+			
+			DecodedJWT decodedJwt = JWT.require(Algorithm.HMAC256("ChaveOficinaJWT")).build().verify(jwt);
 
-			DecodedJWT decodedJwt = JWT.require(Algorithm.HMAC256("ChaveTokenT2MSkill")).build().verify(jwt);
-
-			String login = decodedJwt.getClaim("login").asString();
+				
+			String email = decodedJwt.getClaim("email").asString();
 			String role = decodedJwt.getClaim("role").asString();
-//			Usuarios usuario = usuariosService.findByUsername(login);
-//
-//			if (usuariosRepository.existsByUsuariosNomeUsuario(login)
-//					&& usuariosRepository.findByusuariosNomeUsuario(login).getUsuariosTipo().equalsIgnoreCase(role)
-//					&& usuariosRepository.findByusuariosNomeUsuario(login).getUsuariosAtivo()) {
-//				List<GrantedAuthority> authorities = Arrays
-//						.asList(new SimpleGrantedAuthority(usuario.getUsuariosTipo()));
-//				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(login,
-//						null, authorities);
-//				SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//				chain.doFilter(httpRequest, httpResponse);
-//			}
-//
-//			else {
-//
-//				httpResponse.sendError(HttpStatus.UNAUTHORIZED.value());
-//				return;
-//
-//			}
+			Usuarios usuario = usuariosRepository.findByEmail(email);
+			
+
+			if (usuariosRepository.existsByEmail(email)
+					&& usuariosRepository.findByEmail(email).getTipo().equalsIgnoreCase(role)) {
+				List<GrantedAuthority> authorities = Arrays
+						.asList(new SimpleGrantedAuthority(usuario.getTipo()));
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(email,
+						null, authorities);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+
+				chain.doFilter(httpRequest, httpResponse);
+			}
+
+			else {
+
+				httpResponse.sendError(HttpStatus.UNAUTHORIZED.value());
+				return;
+
+			}
 
 		} catch (JWTVerificationException ex) {
 			httpResponse.sendError(HttpStatus.UNAUTHORIZED.value());

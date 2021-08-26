@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projeto.oficina.entities.Usuarios;
 import com.projeto.oficina.exception.GlobalException;
 import com.projeto.oficina.services.UsuariosService;
 import com.projeto.oficina.vo.UsuariosVO;
@@ -25,6 +27,13 @@ public class UsuariosController {
 
 	@Autowired
 	private UsuariosService usuariosService;
+	
+	@GetMapping("/minhasinfos")
+	public ResponseEntity<Usuarios>MinhasInfos(){
+		HttpHeaders headers = new HttpHeaders();
+		Usuarios usuario = usuariosService.GetUsuarioAutenticado();
+		return new ResponseEntity<>(usuario, headers, HttpStatus.OK);
+	}
 	
 	@PostMapping("/cadastro")
 	public ResponseEntity<String> save(@Valid @RequestBody UsuariosVO novoUsuarioVO) throws GlobalException, MessagingException {

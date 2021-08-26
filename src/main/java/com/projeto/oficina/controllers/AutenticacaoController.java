@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,10 +44,10 @@ public class AutenticacaoController {
 				throw new GlobalException("Por favor confirme seu e-mail!");
 			}
 			
-			Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
+//			Authentication authentication = (Authentication) SecurityContextHolder.getContext().getAuthentication();
 
-			User user = (User) authentication.getPrincipal();
-
+//			User user = (User) authentication.getPrincipal();
+//
 //			String login = user.getUsername();
 
 			String jwt = JWT.create().withClaim("email", usuarioLogando.getEmail()).withClaim("role", usuarioLogando.getTipo())
