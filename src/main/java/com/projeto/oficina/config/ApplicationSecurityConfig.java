@@ -40,6 +40,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter impl
 				.antMatchers(HttpMethod.POST, "/usuarios/cadastro").permitAll()
 				.antMatchers(HttpMethod.PUT, "/usuarios/ativaremail").permitAll()
 				.antMatchers(HttpMethod.POST, "/auth").permitAll()
+				.antMatchers(HttpMethod.POST, "/ordemservicos/attstatus/**").hasAnyAuthority("ROLE_ADMIN")
+				.antMatchers(HttpMethod.POST, "/ordemservicos/addacoes/**").hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 				.and().cors().and().csrf().disable()
 				.addFilter(jwtBasicAuthenticationFilter()).sessionManagement()

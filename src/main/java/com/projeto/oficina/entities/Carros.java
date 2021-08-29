@@ -27,6 +27,9 @@ public class Carros {
 	@Column(name = "placa")
 	private String placa;
 	
+	@Column(name = "cor")
+	private String cor;
+	
 	@ManyToOne
 	@JoinColumn(name = "usuarioid", referencedColumnName = "id")
 	private Usuarios usuario;
@@ -70,6 +73,15 @@ public class Carros {
 	public void setUsuario(Usuarios usuario) {
 		this.usuario = usuario;
 	}
+
+	public String getCor() {
+		return cor;
+	}
+
+	public void setCor(String cor) {
+		this.cor = cor;
+	}
+	
 	
 	
 }

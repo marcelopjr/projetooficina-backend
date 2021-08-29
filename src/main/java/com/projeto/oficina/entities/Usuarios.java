@@ -49,9 +49,11 @@ public class Usuarios {
 	@Column(name = "tipo")
 	private String tipo;
 	
-	
 	@OneToMany(mappedBy = "usuario")
 	private List<Carros> listaCarros;
+	
+	@OneToMany(mappedBy = "usuario")
+	private List<OrdemServicos> listaOrdemServicos;
 
 	public Integer getId() {
 		return id;
@@ -148,5 +150,15 @@ public class Usuarios {
 	public void setListaCarros(List<Carros> listaCarros) {
 		this.listaCarros = listaCarros;
 	}
+
+	public List<OrdemServicos> getListaOrdemServicos() {
+		return listaOrdemServicos;
+	}
+
+	public void setListaOrdemServicos(List<OrdemServicos> listaOrdemServicos) {
+		this.listaOrdemServicos = listaOrdemServicos;
+	}
+	
+	
 	
 }

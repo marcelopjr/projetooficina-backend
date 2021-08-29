@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projeto.oficina.entities.Acoes;
+import com.projeto.oficina.entities.OrdemServicos_Acoes;
 import com.projeto.oficina.repositories.AcoesRepository;
 import com.projeto.oficina.vo.AcoesVO;
+import com.projeto.oficina.vo.AcoesViewVO;
 
 @Service
 public class AcoesService {
@@ -33,5 +35,15 @@ public class AcoesService {
 		Acoes acoes = new Acoes();
 		
 		return acoes;
+	}
+	
+	public AcoesViewVO converteEntidadeParaViewVO(OrdemServicos_Acoes ordemServicos_Acoes) {
+		AcoesViewVO acoesViewVO = new AcoesViewVO();
+		
+		acoesViewVO.setNome(ordemServicos_Acoes.getId().getAcoes().getNome());
+		acoesViewVO.setData(ordemServicos_Acoes.getData());
+		acoesViewVO.setNome_peca(ordemServicos_Acoes.getNome_peca());
+		
+		return acoesViewVO;
 	}
 }

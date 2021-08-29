@@ -14,9 +14,10 @@ public class UsuariosViewVO {
 	
 	private String email;
 	
-	private String tipo;
+	private List<CarrosViewVO> listaCarros;
 	
-	private List<OrdemServicoViewVO> listaOrdemServicos;
+	private List<OrdemServicosViewVO> listaOrdemServicos;
+	
 
 	public Integer getId() {
 		return id;
@@ -58,20 +59,21 @@ public class UsuariosViewVO {
 		this.email = email;
 	}
 
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public List<OrdemServicoViewVO> getListaOrdemServicos() {
+	public List<OrdemServicosViewVO> getListaOrdemServicos() {
 		return listaOrdemServicos;
 	}
 
-	public void setListaOrdemServicos(List<OrdemServicoViewVO> listaOrdemServicos) {
+	public void setListaOrdemServicos(List<OrdemServicosViewVO> listaOrdemServicos) {
 		this.listaOrdemServicos = listaOrdemServicos;
 	}
+
+	public List<CarrosViewVO> getListaCarros() {
+		return listaCarros;
+	}
+
+	public void setListaCarros(List<CarrosViewVO> listaCarros) {
+		this.listaCarros = listaCarros;
+	}
+	
 	
 }

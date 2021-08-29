@@ -6,7 +6,7 @@ public class AcoesViewVO {
 	
 	private String nome;
 	
-	private String mensagem;
+	private String nome_peca;
 	
 	private LocalDate data;
 
@@ -18,14 +18,6 @@ public class AcoesViewVO {
 		this.nome = nome;
 	}
 
-	public String getMensagem() {
-		return mensagem;
-	}
-
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
-	}
-
 	public LocalDate getData() {
 		return data;
 	}
@@ -33,5 +25,15 @@ public class AcoesViewVO {
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
+
+	public String getNome_peca() {
+		return nome_peca;
+	}
+
+	public void setNome_peca(String nome_peca) {
+		this.nome_peca = nome_peca;
+	}
+	
+	
 
 }

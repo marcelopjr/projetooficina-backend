@@ -6,6 +6,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projeto.oficina.entities.OrdemServicos;
 import com.projeto.oficina.entities.Status;
 
@@ -14,6 +15,7 @@ public class OrdemServicos_Status_Pk implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "ordemservico_id")
 	private OrdemServicos ordemservicos;
