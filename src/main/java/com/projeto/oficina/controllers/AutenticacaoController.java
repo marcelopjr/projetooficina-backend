@@ -1,5 +1,7 @@
 package com.projeto.oficina.controllers;
 
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,8 +52,13 @@ public class AutenticacaoController {
 //
 //			String login = user.getUsername();
 
-			String jwt = JWT.create().withClaim("email", usuarioLogando.getEmail()).withClaim("role", usuarioLogando.getTipo())
-					.withClaim("nome", usuarioLogando.getNome()).withClaim("Cpf", usuarioLogando.getCpf())
+			String jwt = JWT.create()
+					.withClaim("email", usuarioLogando.getEmail())
+					.withClaim("role", usuarioLogando.getTipo())
+					.withClaim("nome", usuarioLogando.getNome())
+					.withClaim("Cpf", usuarioLogando.getCpf())
+					.withIssuedAt(new Date(System.currentTimeMillis()))
+					.withExpiresAt(new Date(System.currentTimeMillis() + 900000))
 					.sign(Algorithm.HMAC256("ChaveOficinaJWT"));
 
 		
