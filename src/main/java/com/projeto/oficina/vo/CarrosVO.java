@@ -16,6 +16,9 @@ public class CarrosVO {
 	@PlacaVeiculo
 	private String placa;
 	
+	@NotBlank(message = "Digite a cor do seu carro!")
+	private String cor;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -47,5 +50,15 @@ public class CarrosVO {
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
+
+	public String getCor() {
+		return cor;
+	}
+
+	public void setCor(String cor) {
+		this.cor = cor;
+	}
+	
+	
 
 }

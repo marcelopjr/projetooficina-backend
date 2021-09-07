@@ -1,5 +1,7 @@
 package com.projeto.oficina.controllers;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.projeto.oficina.entities.Usuarios;
 import com.projeto.oficina.exception.GlobalException;
 import com.projeto.oficina.services.UsuariosService;
+import com.projeto.oficina.vo.CarrosViewVO;
+import com.projeto.oficina.vo.OrdemServicosViewVO;
 import com.projeto.oficina.vo.UsuariosVO;
+import com.projeto.oficina.vo.UsuariosViewVO;
 
 
 @RestController
@@ -29,10 +33,38 @@ public class UsuariosController {
 	private UsuariosService usuariosService;
 	
 	@GetMapping("/minhasinfos")
-	public ResponseEntity<Usuarios>MinhasInfos(){
+	public ResponseEntity<UsuariosViewVO>MinhasInfos(){
 		HttpHeaders headers = new HttpHeaders();
-		Usuarios usuario = usuariosService.GetUsuarioAutenticado();
+		UsuariosViewVO usuario = usuariosService.minhaInfos();
 		return new ResponseEntity<>(usuario, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/meuscarros")
+	public ResponseEntity<List<CarrosViewVO>>MeusCarros(){
+		HttpHeaders headers = new HttpHeaders();
+		List<CarrosViewVO> meusCarros = usuariosService.meusCarros();
+		return new ResponseEntity<>(meusCarros, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/minhasos")
+	public ResponseEntity<List<OrdemServicosViewVO>>MinhasOS(){
+		HttpHeaders headers = new HttpHeaders();
+		List<OrdemServicosViewVO> minhasOS = usuariosService.minhaOS();
+		return new ResponseEntity<>(minhasOS, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/minhasosabertas")
+	public ResponseEntity<List<OrdemServicosViewVO>>MinhasOSAbertas(){
+		HttpHeaders headers = new HttpHeaders();
+		List<OrdemServicosViewVO> minhasOSAbertas = usuariosService.minhaOSAbertas();
+		return new ResponseEntity<>(minhasOSAbertas, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/minhasosfechadas")
+	public ResponseEntity<List<OrdemServicosViewVO>>MinhasOSFechadas(){
+		HttpHeaders headers = new HttpHeaders();
+		List<OrdemServicosViewVO> minhasOSFechadas = usuariosService.minhaOSFechadas();
+		return new ResponseEntity<>(minhasOSFechadas, headers, HttpStatus.OK);
 	}
 	
 	@PostMapping("/cadastro")

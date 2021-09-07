@@ -34,6 +34,7 @@ public class CarrosService {
 		carros.setMarca(carrosVO.getMarca());
 		carros.setModelo(carrosVO.getModelo());
 		carros.setPlaca(carrosVO.getPlaca());
+		carros.setCor(carrosVO.getCor());
 		return carros;
 	}
 	
