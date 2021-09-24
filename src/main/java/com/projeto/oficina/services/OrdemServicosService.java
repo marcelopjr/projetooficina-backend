@@ -81,6 +81,10 @@ public class OrdemServicosService {
 		}
 
 	}
+	
+	public void cancelarOS(Integer idOs) {
+		alterarStatus(6, idOs, "Pedido cancelado pelo cliente");
+	}
 
 	public OrdemServicos_Status alterarStatus(Integer idStatus, Integer idOs) {
 

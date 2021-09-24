@@ -44,6 +44,17 @@ public class UsuariosService {
 		return usuario;
 	}
 
+	public boolean existEmail(String email) {
+		boolean existe = usuariosRepository.existsByEmail(email);
+
+		if (existe) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	public UsuariosViewVO findById(Integer id) {
 		return ConverteEntidadeParaView(usuariosRepository.findById(id).get());
 	}
@@ -63,7 +74,6 @@ public class UsuariosService {
 			}
 
 		}
-		
 
 		return meusCarros;
 	}
@@ -79,10 +89,10 @@ public class UsuariosService {
 			}
 
 		}
-		
+
 		return minhasOS;
 	}
-	
+
 	public List<OrdemServicosViewVO> minhaOSAbertas() {
 		List<OrdemServicosViewVO> minhasOSAbertas = new ArrayList<>();
 		Usuarios usuario = GetUsuarioAutenticado();
@@ -90,16 +100,16 @@ public class UsuariosService {
 		if (!usuario.getListaOrdemServicos().isEmpty()) {
 
 			for (OrdemServicos lOrdemServicos : usuario.getListaOrdemServicos()) {
-				if(lOrdemServicos.isOs_aberta()) {
+				if (lOrdemServicos.isOs_aberta()) {
 					minhasOSAbertas.add(ordemServicosService.converteEntidadeParaView(lOrdemServicos));
 				}
 			}
 
 		}
-		
+
 		return minhasOSAbertas;
 	}
-	
+
 	public List<OrdemServicosViewVO> minhaOSFechadas() {
 		List<OrdemServicosViewVO> minhasOSFechadas = new ArrayList<>();
 		Usuarios usuario = GetUsuarioAutenticado();
@@ -107,13 +117,13 @@ public class UsuariosService {
 		if (!usuario.getListaOrdemServicos().isEmpty()) {
 
 			for (OrdemServicos lOrdemServicos : usuario.getListaOrdemServicos()) {
-				if(!lOrdemServicos.isOs_aberta()) {
+				if (!lOrdemServicos.isOs_aberta()) {
 					minhasOSFechadas.add(ordemServicosService.converteEntidadeParaView(lOrdemServicos));
 				}
 			}
 
 		}
-		
+
 		return minhasOSFechadas;
 	}
 
@@ -150,11 +160,11 @@ public class UsuariosService {
 		Usuarios usuarios = new Usuarios();
 
 		usuarios.setNome(usuarioVO.getNome());
-		usuarios.setCpf(usuarioVO.getCpf());
-		usuarios.setTelefone(usuarioVO.getTelefone());
+		usuarios.setCpf(desformatarCpf(usuarioVO.getCpf()));
+		usuarios.setTelefone(desformatarTelefone(usuarioVO.getTelefone()));
 		usuarios.setEmail(usuarioVO.getEmail());
 		usuarios.setSenha(new BCryptPasswordEncoder().encode(usuarioVO.getSenha()));
-		usuarios.setTipo(usuarioVO.getTipo());
+		usuarios.setTipo("ROLE_USER");
 
 		return usuarios;
 	}
@@ -187,6 +197,29 @@ public class UsuariosService {
 		}
 
 		return usuariosViewVO;
+	}
+
+	public String desformatarCpf(String cpf) {
+
+		if (cpf.length() > 11) {
+			String cpfDesformatado = cpf.replace(".", "");
+			cpfDesformatado = cpfDesformatado.replace("-", "");
+
+			return cpfDesformatado;
+
+		} else {
+			return cpf;
+		}
+
+	}
+
+	public String desformatarTelefone(String telefone) {
+
+		String telefoneDesformatado = telefone.replace(" ", "");
+		telefoneDesformatado = telefoneDesformatado.replace("-", "");
+
+		return telefoneDesformatado;
+
 	}
 
 	private String gerarChave() {

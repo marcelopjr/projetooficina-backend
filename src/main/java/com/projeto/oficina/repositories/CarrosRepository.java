@@ -7,5 +7,5 @@ import com.projeto.oficina.entities.Carros;
 
 @Repository
 public interface CarrosRepository extends JpaRepository<Carros, Integer> {
-
+	public boolean existsByPlaca(String placa);
 }

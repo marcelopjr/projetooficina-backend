@@ -19,7 +19,7 @@ public class UsuariosVO {
 	private String cpf;
 	
 	@NotBlank(message = "Digite o seu telefone!")
-	@Size(min = 11, max = 11, message = "Numero de telefone inválido!")
+	@Size(min = 13, max = 13, message = "Numero de telefone inválido!")
 	private String telefone;
 	
 	@NotBlank(message = "Digite seu e-mail!")
@@ -30,7 +30,7 @@ public class UsuariosVO {
 	@NotBlank(message = "Digite uma senha!")
 	private String senha;
 	
-	@NotBlank(message = "Inferme o tipo de usuário!")
+	
 	private String tipo;
 
 	public String getNome() {

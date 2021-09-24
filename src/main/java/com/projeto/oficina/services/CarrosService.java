@@ -17,6 +17,18 @@ public class CarrosService {
 	@Autowired
 	UsuariosService usuariosService;
 	
+	public boolean existPlaca(String placa) {
+		boolean existe = carrosRepository.existsByPlaca(placa);
+		
+		if(existe) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
 	public Carros findById(Integer id) {
 		Carros carros = carrosRepository.findById(id).get();
 		return carros;

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +35,8 @@ public class OrdemServicosController {
 	@PostMapping("/novaos")
 	public ResponseEntity<?> novaOS(@Valid @RequestBody OrdemServicosVO ordemServicosVO) throws GlobalException {
 		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<>(ordemServicosService.save(ordemServicosVO), headers, HttpStatus.OK);
+		ordemServicosService.save(ordemServicosVO);
+		return new ResponseEntity<>("Serviço solicitado com sucesso!", headers, HttpStatus.OK);
 	}
 
 	@PostMapping("/attstatus/{idOs}/{idStatus}")
@@ -58,6 +60,13 @@ public class OrdemServicosController {
 		HttpHeaders headers = new HttpHeaders();
 		ordemServicosService.adicionarAcoes(idAcoes, idOs, peca);
 		return new ResponseEntity<>("Ação adicionada", headers, HttpStatus.OK);
+	}
+	
+	@PutMapping("/cancelaros/{idOs}")
+	public ResponseEntity<?> cancelarOS(@PathVariable Integer idOs){
+		HttpHeaders headers = new HttpHeaders();
+		ordemServicosService.cancelarOS(idOs);
+		return new ResponseEntity<>("Pedido cancelado com sucesso!", headers, HttpStatus.OK);
 	}
 
 }

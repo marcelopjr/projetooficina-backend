@@ -32,6 +32,12 @@ public class UsuariosController {
 	@Autowired
 	private UsuariosService usuariosService;
 	
+	@GetMapping("/existeemail")
+	public ResponseEntity<?> existPlaca(@RequestParam String email){
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>(usuariosService.existEmail(email), headers, HttpStatus.OK);
+	}
+	
 	@GetMapping("/minhasinfos")
 	public ResponseEntity<UsuariosViewVO>MinhasInfos(){
 		HttpHeaders headers = new HttpHeaders();
@@ -71,7 +77,7 @@ public class UsuariosController {
 	public ResponseEntity<String> save(@Valid @RequestBody UsuariosVO novoUsuarioVO) throws GlobalException, MessagingException {
 		HttpHeaders headers = new HttpHeaders();
 		usuariosService.save(novoUsuarioVO);
-		return new ResponseEntity<>("Email de ativacao enviado!", headers, HttpStatus.OK);
+		return new ResponseEntity<>("Um Email foi enviado para ativação da conta! \n" + novoUsuarioVO.getEmail(), headers, HttpStatus.OK);
 	}
 	
 	@PutMapping("/ativaremail")
