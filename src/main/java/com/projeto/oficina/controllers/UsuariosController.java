@@ -32,10 +32,44 @@ public class UsuariosController {
 	@Autowired
 	private UsuariosService usuariosService;
 	
-	@GetMapping("/existeemail")
-	public ResponseEntity<?> existPlaca(@RequestParam String email){
+
+	@PutMapping("/solicitartrocadesenha")
+	public ResponseEntity<?> solicitarTrocaDeSenha(@RequestParam String email) throws GlobalException, MessagingException{
+		HttpHeaders headers = new HttpHeaders();
+		usuariosService.solicitarTrocaDeSenha(email);
+		return new ResponseEntity<>("Email para troca de senha enviado!", headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/validartrocadesenha")
+	public ResponseEntity<?> validarTrocaSenha(@RequestParam String chave, @RequestParam String email) throws GlobalException{
+		HttpHeaders headers = new HttpHeaders();
+	
+		if(usuariosService.validarChaveTrocaSenha(chave, email)) {
+			return new ResponseEntity<>(true, headers, HttpStatus.OK);
+		} else {
+			throw new GlobalException("Parece que há algum problema com o seu link, tente acessa-lo novamente ou solicitar a troca de senha de novo");
+			//return new ResponseEntity<>("Parece que há algum problema com o seu link, tente acessa-lo novamente ou solicitar a troca de senha de novo", headers, HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@PutMapping("/trocarsenha")
+	public ResponseEntity<?> trocarSenha(@RequestParam String chave, @RequestParam String email, @RequestParam String senha) throws GlobalException{
+		HttpHeaders headers = new HttpHeaders();
+		usuariosService.trocarSenha(chave, email, senha);
+		return new ResponseEntity<>("Senha alterada com sucesso!", headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/checaremail")
+	public ResponseEntity<?> existEmail(@RequestParam String email){
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<>(usuariosService.existEmail(email), headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/checarcpf")
+	public ResponseEntity<?> existCpf(@RequestParam String cpf){
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>(usuariosService.existCpf(cpf), headers, HttpStatus.OK);
 	}
 	
 	@GetMapping("/minhasinfos")

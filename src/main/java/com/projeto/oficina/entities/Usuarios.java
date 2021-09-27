@@ -40,9 +40,6 @@ public class Usuarios {
 	@Column(name = "chaveativaremail")
 	private String chaveAtivarEmail;
 	
-	@Column(name = "chaverecuperarsenhavalida")
-	private boolean chaveRecuperarSenhaValida;
-	
 	@Column(name = "emailativado")
 	private boolean emailAtivado;
 	
@@ -125,14 +122,6 @@ public class Usuarios {
 
 	public void setChaveAtivarEmail(String chaveAtivarEmail) {
 		this.chaveAtivarEmail = chaveAtivarEmail;
-	}
-
-	public boolean isChaveRecuperarSenhaValida() {
-		return chaveRecuperarSenhaValida;
-	}
-
-	public void setChaveRecuperarSenhaValida(boolean chaveRecuperarSenhaValida) {
-		this.chaveRecuperarSenhaValida = chaveRecuperarSenhaValida;
 	}
 
 	public boolean isEmailAtivado() {

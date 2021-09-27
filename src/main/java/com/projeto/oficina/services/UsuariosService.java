@@ -43,10 +43,75 @@ public class UsuariosService {
 		Usuarios usuario = usuariosRepository.findByEmail(login);
 		return usuario;
 	}
+	
+	
+	public void solicitarTrocaDeSenha(String email) throws GlobalException, MessagingException {
+		
+		if(usuariosRepository.existsByEmail(email)) {
+			Usuarios usuario = usuariosRepository.findByEmail(email);
+			
+			usuario.setChaveRecuperarSenha(gerarChave(20));
+			usuariosRepository.save(usuario);
+			emailService.emailNovaSenha(usuario);
+			
+		}else {
+			throw new GlobalException("E-mail inválido!");
+		}
+		
+		
+	}
+	
+	
+	public boolean validarChaveTrocaSenha(String chave, String email) throws GlobalException {
+		
+		if(usuariosRepository.existsByEmail(email)) {
+			
+			Usuarios usuario = usuariosRepository.findByEmail(email);
+			
+			if(usuario.getChaveRecuperarSenha() != null && usuario.getChaveRecuperarSenha().equals(chave)) {
+				return true;
+			}else {
+				return false;
+			}
+			
+		}else {
+			return false;
+			//throw new GlobalException("Parece que há algum problema com o seu link, tente acessa-lo novamente ou solicitar a troca de senha de novo");
+		}
+		
+	}
+	
+	public boolean trocarSenha(String chave, String email, String senha) throws GlobalException {
+		
+		if(validarChaveTrocaSenha(chave, email)) {
+			Usuarios usuario = usuariosRepository.findByEmail(email);
+			
+			usuario.setSenha(new BCryptPasswordEncoder().encode(senha));
+			usuario.setChaveRecuperarSenha(null);
+			usuariosRepository.save(usuario);
+			return true;
+		}else {
+			throw new GlobalException("Tente acessar o link do seu email novamente ou solicitar a troca de senha de novo");
+		}
+		
+		
+	}
+	
 
 	public boolean existEmail(String email) {
 		boolean existe = usuariosRepository.existsByEmail(email);
+		
+		if (existe) {
+			return true;
+		} else {
+			return false;
+		}
 
+	}
+	
+	public boolean existCpf(String cpf) {
+		boolean existe = usuariosRepository.existsByCpf(desformatarCpf(cpf));
+		
 		if (existe) {
 			return true;
 		} else {
@@ -130,7 +195,7 @@ public class UsuariosService {
 	public Usuarios save(UsuariosVO novoUsuarioVO) throws MessagingException, GlobalException {
 		Usuarios novoUsuario = ConverteVoParaEntidade(novoUsuarioVO);
 
-		novoUsuario.setChaveAtivarEmail(gerarChave());
+		novoUsuario.setChaveAtivarEmail(gerarChave(20));
 		usuariosRepository.save(novoUsuario);
 		emailService.emailCadastro(novoUsuario);
 		return novoUsuario;
@@ -138,16 +203,21 @@ public class UsuariosService {
 
 	public boolean ativaremail(String chave, String email) throws GlobalException {
 
-		Usuarios usuarios = usuariosRepository.findByEmail(email);
+		if (usuariosRepository.existsByEmail(email)) {
+			Usuarios usuarios = usuariosRepository.findByEmail(email);
 
-		if (usuarios.getChaveAtivarEmail().equals(chave) && !usuarios.isEmailAtivado()) {
-			usuarios.setEmailAtivado(true);
-			usuarios.setChaveAtivarEmail(null);
-			usuariosRepository.save(usuarios);
-			return true;
+			if (!usuarios.isEmailAtivado() && usuarios.getChaveAtivarEmail().equals(chave) ) {
+				usuarios.setEmailAtivado(true);
+				usuarios.setChaveAtivarEmail(null);
+				usuariosRepository.save(usuarios);
+				return true;
+			} else {
+				throw new GlobalException("Chave invalida ou conta ja ativado");
+			}
 		} else {
-			throw new GlobalException("Chave invalida ou e-mail ja ativado");
+			throw new GlobalException("Tente acessar link enviado para seu e-mail novamente");
 		}
+
 	}
 
 	public UsuariosVO ConverteEntidadeParaVo(Usuarios usuario) {
@@ -222,9 +292,9 @@ public class UsuariosService {
 
 	}
 
-	private String gerarChave() {
-		char[] vet = new char[10];
-		for (int i = 0; i < 10; i++) {
+	private String gerarChave(int tamanho) {
+		char[] vet = new char[tamanho];
+		for (int i = 0; i < tamanho; i++) {
 			vet[i] = randomChar();
 		}
 		return new String(vet);

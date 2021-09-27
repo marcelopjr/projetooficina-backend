@@ -11,4 +11,5 @@ public interface UsuariosRepository extends JpaRepository<Usuarios, Integer> {
 	public Usuarios findByEmail(String email);
 	
 	public boolean existsByEmail(String email);
+	public boolean existsByCpf(String cpf);
 }
